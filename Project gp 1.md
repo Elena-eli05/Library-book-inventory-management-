@@ -1,48 +1,63 @@
-def add_book(library, title, quantity):
-    if title in library:
-        library[title] += quantity 
+def display_inventory(inventory):
+    print("\nCurrent Inventory:")
+    for title in sorted(inventory):
+        print(f'{title}: {inventory[title]}')
+
+def add_book(inventory):
+    title = input("Enter book title: ")
+    quantity = int(input("Enter quantity: "))
+    inventory[title] = inventory.get(title, 0) + quantity
+    print(f'\nAdded "{title}" with quantity {quantity}.')
+
+def remove_book(inventory):
+    title = input("Enter book title to remove: ")
+    if title in inventory:
+        del inventory[title]
+        print(f'\nRemoved "{title}" from inventory.')
     else:
-        library[title] = quantity  
-    print(f'Book "{title}" added successfully')
+        print(f'\n"{title}" not found in inventory.')
 
-def remove_book(library, title):
-    if title in library:
-        del library[title]
-        print(f'Book "{title}" removed from inventory.')
+def update_quantity(inventory):
+    title = input("Enter book title: ")
+    if title in inventory:
+        quantity = int(input("Enter new quantity: "))
+        inventory[title] = quantity
+        print(f'\nQuantity of "{title}" updated to {quantity}.')
     else:
-        print(f'Book "{title}" not found')
+        print(f'\n"{title}" not found in inventory.')
 
-def update_quantity(library, title, quantity):
-    if title in library:
-        library[title] = quantity
-        print(f'Quantity of "{title}" updated to {quantity}.')
+def search_book(inventory):
+    title = input("Enter book title to search: ")
+    if title in inventory:
+        print(f'\nBook Found - Title: {title}, Quantity: {inventory[title]}')
     else:
-        print(f'Book "{title}" not found')
+        print(f'\n"{title}" not found in inventory.')
 
-def search_book(library, title):
-    if title in library:
-        print(f'Book Found - Title: {title}, Quantity: {library[title]}')
+inventory = {}
+
+while True:
+    print("\nBook Inventory Management")
+    print("1. Display Inventory")
+    print("2. Add Book")
+    print("3. Remove Book")
+    print("4. Update Quantity")
+    print("5. Search for a Book")
+    print("6. Exit")
+    
+    choice = input("Enter your choice (1-6): ")
+    
+    if choice == "1":
+        display_inventory(inventory)
+    elif choice == "2":
+        add_book(inventory)
+    elif choice == "3":
+        remove_book(inventory)
+    elif choice == "4":
+        update_quantity(inventory)
+    elif choice == "5":
+        search_book(inventory)
+    elif choice == "6":
+        print("\nExiting")
+        break
     else:
-        print(f'Book "{title}" not found')
-
-def display_books(library):
-    if library:
-        print("\nLibrary Inventory:")
-        for title, quantity in library.items():
-            print(f'Title: {title}, Quantity: {quantity}')
-    else:
-        print("Library is empty")
-
-
-library = {}
-
-add_book(library, "Harry Potter", 6)
-add_book(library, "1984", 3)
-add_book(library, "Gitanjali", 10)
-display_books(library)
-search_book(library, "1984")
-search_book(library, "Invisible Man")
-update_quantity(library, "1984", 7)
-display_books(library)
-remove_book(library, "1984")
-display_books(library)
+        print("\nInvalid choice! Please enter a number between 1 and 6.")
